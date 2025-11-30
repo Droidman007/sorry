@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Love Animation Card</title>
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                background: linear-gradient(180deg, #ffdde9, #ffd3f2);
+                font-family: "Poppins", sans-serif;
+            }
+
+            /* Floating emojis */
+            .emoji {
+                position: absolute;
+                font-size: 32px;
+                animation: floatUp 6s linear infinite;
+                opacity: 0;
+            }
+
+            @keyframes floatUp {
+                0% {
+                    transform: translateY(100vh) scale(0.6);
+                    opacity: 0;
+                }
+                20% {
+                    opacity: 1;
+                }
+                100% {
+                    transform: translateY(-10vh) scale(1.4);
+                    opacity: 0;
+                }
+            }
+
+            /* Center button */
+            #startBtn {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: #ff4d7a;
+                color: #fff;
+                padding: 15px 35px;
+                font-size: 20px;
+                border: none;
+                border-radius: 14px;
+                cursor: pointer;
+                box-shadow: 0 10px 25px rgba(255, 77, 122, 0.4);
+                transition: 0.25s;
+            }
+
+            #startBtn:hover {
+                transform: translate(-50%, -50%) scale(1.05);
+            }
+
+            /* Message */
+            #message {
+                position: absolute;
+                width: 100%;
+                text-align: center;
+                top: 40%;
+                left: 50%;
+                transform: translateX(-50%);
+                font-size: 36px;
+                font-weight: 600;
+                color: #d62862;
+                opacity: 0;
+                transition: opacity 1.5s ease-in-out;
+            }
+            /* Responsive adjustments */
+            @media (max-width: 600px) {
+                #startBtn {
+                    padding: 12px 28px;
+                    font-size: 18px;
+                    border-radius: 12px;
+                }
+
+                #message {
+                    font-size: 26px;
+                    top: 45%;
+                    padding: 0 20px;
+                }
+
+                .emoji {
+                    font-size: 22px !important;
+                }
+            }
+
+            @media (max-width: 400px) {
+                #startBtn {
+                    padding: 10px 24px;
+                    font-size: 16px;
+                }
+
+                #message {
+                    font-size: 22px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <button id="startBtn">Click Me ❤️</button>
+        <div id="message">You mean everything to me 💖</div>
+
+        <script>
+            const emojis = ["❤️", "💖", "💘", "💞", "💗", "💓", "💟", "💕"];
+            let animationStarted = false;
+
+            const messages = [
+                "Hey iron woman, this one is for you ❤️",
+                "You mean everything to me 💖",
+                "You are the most special person for me 💘",
+                "Thank you for being in my life 💞",
+                "I'm sorry for these days I've been so rough with you 💔",
+                "Please always be with me 💗",
+            ];
+
+            let msgIndex = 0;
+            const msgBox = document.getElementById("message");
+
+            function showNextMessage() {
+                if (msgIndex >= messages.length) return;
+
+                msgBox.style.opacity = 0;
+
+                setTimeout(() => {
+                    msgBox.textContent = messages[msgIndex];
+                    msgBox.style.opacity = 1;
+                    msgIndex++;
+
+                    setTimeout(showNextMessage, 2500);
+                }, 600);
+            }
+
+            document
+                .getElementById("startBtn")
+                .addEventListener("click", () => {
+                    if (animationStarted) return;
+                    animationStarted = true;
+
+                    document.getElementById("startBtn").style.display = "none";
+
+                    msgBox.style.opacity = 1;
+                    msgBox.textContent = messages[0];
+                    msgIndex = 1;
+
+                    setTimeout(showNextMessage, 2000);
+
+                    setInterval(() => {
+                        createEmoji();
+                    }, 400);
+                });
+
+            function createEmoji() {
+                const emoji = document.createElement("div");
+                emoji.classList.add("emoji");
+                emoji.innerText =
+                    emojis[Math.floor(Math.random() * emojis.length)];
+
+                emoji.style.left = Math.random() * 100 + "vw";
+                emoji.style.animationDuration = 5 + Math.random() * 4 + "s";
+                emoji.style.fontSize = 24 + Math.random() * 30 + "px";
+
+                document.body.appendChild(emoji);
+
+                setTimeout(() => {
+                    emoji.remove();
+                }, 9000);
+            }
+        </script>
+    </body>
+</html>
